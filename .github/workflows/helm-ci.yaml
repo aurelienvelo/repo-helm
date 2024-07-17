@@ -1,0 +1,55 @@
+name: Helm Chart CI
+
+on:
+  push:
+    paths:
+      - 'charts/**'
+    branches:
+      - main
+
+jobs:
+  release-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v4.2.0
+
+      - name: Package Helm chart
+        run: |
+          changed_charts=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^charts/' | cut -d'/' -f2 | uniq)
+          for chart in $changed_charts; do
+            if [ -f charts/$chart/Chart.yaml ]; then
+              version=$(grep 'version:' charts/$chart/Chart.yaml | awk '{print $2}')
+              if [ "$(git diff ${{ github.event.before }} ${{ github.sha }} charts/$chart/Chart.yaml | grep '^+version')" ]; then
+                echo "Packaging $chart version $version"
+                helm package charts/$chart
+                mv $chart-$version.tgz repo/
+              fi
+            fi
+          done
+
+      - name: Update Helm repo index
+        run: |
+          helm repo index repo --url https://raw.githubusercontent.com/${{ github.repository }}/main/repo
+
+      - name: Commit and push changes
+        run: |
+          git add repo/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update Helm chart repository"
+            git push
+          fi
