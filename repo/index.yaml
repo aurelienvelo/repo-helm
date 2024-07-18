@@ -1,14 +1,14 @@
 apiVersion: v1
 entries:
-  nginx:
+  httpbin:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-07-17T14:06:10.5046741+02:00"
+    created: "2024-07-18T12:31:00.176376941Z"
     description: A Helm chart for Kubernetes
-    digest: 870649aa0322248cc900ecb786c8cbedc394137efa66c42cc87f3b0751122123
-    name: nginx
+    digest: a021564219197df71204798e77a70a051b19630c00775e73cd208bd4535059ca
+    name: httpbin
     type: application
     urls:
-    - https://github.com/aurelienvelo/repo-helm/repo-chart/main/repo/nginx-0.1.0.tgz
+    - https://raw.githubusercontent.com/aurelienvelo/repo-helm/main/repo/httpbin-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-17T14:06:10.503678+02:00"
+generated: "2024-07-18T12:31:00.175818924Z"
