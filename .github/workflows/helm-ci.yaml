@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   release-chart:
     runs-on: ubuntu-latest
@@ -20,7 +24,7 @@ jobs:
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.email "$GITHUB_ACTOR@gmail.com"
 
       - name: Install Helm
         uses: azure/setup-helm@v4.2.0
