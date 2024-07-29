@@ -1,5 +1,5 @@
 apiVersion: v2
 name: adguard-home
 description: A Helm chart for AdGuard Home DNS server with Ingress NGINX
-version: 0.1.1
+version: 0.1.2
 appVersion: "latest"
