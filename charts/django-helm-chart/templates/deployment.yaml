@@ -100,9 +100,7 @@ spec:
               mountPath: /etc/caddy/Caddyfile
               subPath: Caddyfile
             - name: shared
-              mountPath: /srv/{{ .Values.data.staticfiles }}
-            - name: shared
-              mountPath: /srv/{{ .Values.data.data_media }}
+              mountPath: {{ .Values.data.staticfiles }}
       volumes:
         - name: caddy-config
           configMap:
